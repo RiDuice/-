@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.borders {
+    border: 10px solid black;
+    
+    /* border-left: 10px, solid rgb(0, 0, 0);
+    border-bottom: 10px, solid rgb(0, 0, 0);
+    border-top: 10px, solid rgb(0, 0, 0);
+    border-right: 10px, solid rgb(0, 0, 0);
+    margin: 0;
+    padding: 0; */
+}
