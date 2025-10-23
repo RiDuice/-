@@ -1,11 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Мессенжер</title>
 </head>
+
 <body>
-    
+    <!-- Левая панель серверов (как в Discord) -->
+    <div class="servers-list" id="serversList">
+        <!-- Кнопка возврата в меню -->
+        <div class="server-item home-server" id="homeServer" title="Главное меню">
+            <div class="server-icon">
+                <img src="assets/images/Dom.png" alt="Главная" class="server-image"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="server-fallback"></div>
+            </div>
+        </div>
+
+        <!-- Разделитель -->
+        <div class="server-divider"></div>
+
+        <!-- Список серверов -->
+        <div class="servers-container" id="serversContainer">
+            <!-- Серверы будут добавляться динамически -->
+        </div>
+
+        <!-- Кнопка добавления сервера -->
+        <div class="server-item add-server" id="addServer" title="Добавить сервер">
+            <div class="server-icon">
+                <div class="server-fallback">+</div>
+            </div>
+        </div>
+
+        <!-- Скрытый input для загрузки изображений -->
+        <input type="file" id="serverImageInput" accept="image/*" style="display: none;">
+    </div>
+
+    <!-- Список чатов -->
+    <div class="chats-list active" id="chatsList">
+        <div class="chats-header">
+            <h2>Чаты</h2>
+        </div>
+
+        <div class="chats-container">
+            <div class="chat-item" data-chat="1">
+                <div class="chat-avatar">
+                    <img src="images/avatar1.jpg" alt="Аватар чата" class="avatar-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="avatar-fallback">К</div>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">Какой то тип 1</div>
+                    <div class="chat-preview">Обезьяна</div>
+                </div>
+            </div>
+
+            <div class="chat-item" data-chat="2">
+                <div class="chat-avatar">
+                    <img src="images/avatar2.jpg" alt="Аватар чата" class="avatar-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="avatar-fallback">К</div>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">Какой то тип 2</div>
+                    <div class="chat-preview">Немощь</div>
+                </div>
+            </div>
+
+            <div class="chat-item" data-chat="3">
+                <div class="chat-avatar">
+                    <img src="images/avatar3.jpg" alt="Аватар чата" class="avatar-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="avatar-fallback">К</div>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">Какой то тип 3</div>
+                    <div class="chat-preview">Осёл</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Профиль пользователя и кнопки внизу -->
+        <div class="user-profile-footer">
+            <div class="profile-content">
+                <div class="profile-avatar">
+                    <img src="images/user-avatar.jpg" alt="Аватар пользователя" class="avatar-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="avatar-fallback">U</div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">Username</div>
+                    <div class="profile-tag">юз пользователя</div>
+                </div>
+            </div>
+            <div class="profile-buttons">
+                <button class="theme-toggle" id="themeToggle">
+                    <img src="assets/images/Theme.png" alt="Переключить тему" class="button-icon">
+                </button>
+                <button class="settings-button" id="settingsButton">
+                    <img src="assets/images/Settings.png" alt="Настройки" class="button-icon">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Область чата -->
+    <div class="chat-area" id="chatArea">
+        <!-- Плашка с именем пользователя (как в Discord) -->
+        <div class="chat-header">
+            <div class="back-button" id="backButton">
+                <img src="images/back-icon.png" alt="Назад" class="button-icon">
+            </div>
+            <div class="chat-header-avatar">
+                <img src="images/current-chat-avatar.jpg" alt="Аватар чата" class="avatar-image"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="avatar-fallback">Д</div>
+            </div>
+            <div class="chat-header-info">
+                <h3>Выберите чат</h3>
+                <p>Начните общение</p>
+            </div>
+        </div>
+
+        <!-- Область сообщений -->
+        <div class="messages-container" id="messagesContainer">
+            <div class="welcome-message">
+                <h3>Добро пожаловать!</h3>
+                <p>Выберите чат из списка слева чтобы начать общение</p>
+            </div>
+        </div>
+
+        <!-- Панель ввода сообщения (как в Telegram для iOS) -->
+        <div class="message-input-container">
+            <textarea class="message-input" id="messageInput" placeholder="Сообщение" rows="1" disabled></textarea>
+            <button class="send-button" id="sendButton" disabled>
+                <img src="assets/images/Otprv.png" alt="Отправить" class="button-icon">
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
