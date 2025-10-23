@@ -2,87 +2,711 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 body {
-    background: #0a0808;
-    background: linear-gradient(125deg, rgba(10, 8, 8, 1) 0%, rgba(0, 0, 31, 1) 100%);
-    color: #dcddde;
     display: flex;
     height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding-left: 70px;
 }
 
-.container {
-    display: flex;
-    width: 100%;
-}
-
-.sidebar {
-    width: 240px;
-    background: #000000;
-    background: linear-gradient(125deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 20, 1) 100%);
+/* Левая панель серверов */
+.servers-list {
+    width: 70px;
+    background-color: rgba(32, 34, 37, 0.9);
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-}
-
-.friends-header {
-    padding: 16px 8px;
-    border-bottom: 1px solid #202225;
-}
-
-.friends-header h1 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.friends-header .subtitle {
-    font-size: 12px;
-    color: #8e9297;
-}
-
-.direct-messages {
-    padding: 8px 0;
-}
-
-.direct-messages h2 {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 8px;
-    color: #8e9297;
-    text-transform: uppercase;
-}
-
-.dm-item {
-    padding: 6px 8px;
-    margin: 2px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
     align-items: center;
+    padding: 12px 0;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
 }
 
-.dm-item:hover {
-    background-color: rgba(79, 84, 92, 0.4);
-}
-
-.dm-item::before {
-    display: none;
-}
-
-.avatar {
-    width: 32px;
-    height: 32px;
+.server-item {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    background-color: #7289da;
-    margin-right: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.server-item:hover {
+    border-radius: 16px;
+    background-color: #5865f2;
+}
+
+.server-item.active {
+    border-radius: 16px;
+    background-color: #5865f2;
+}
+
+.server-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #36393f;
+    transition: border-radius 0.2s ease;
+    position: relative;
+}
+
+.server-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    display: block;
+}
+
+.server-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-color: #36393f;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
     font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Убираем градиент для домашнего сервера, т.к. используем картинку */
+.home-server .server-icon {
+    background: transparent;
+}
+
+.home-server .server-fallback {
+    background: linear-gradient(135deg, #5865f2, #4752c4);
+}
+
+.add-server .server-icon {
+    background-color: #36393f;
+    border: 2px dashed #72767d;
+}
+
+.add-server:hover .server-icon {
+    background-color: #3ba55c;
+    border-color: #3ba55c;
+}
+
+.add-server .server-fallback {
+    background-color: transparent;
+}
+
+.server-divider {
+    width: 32px;
+    height: 2px;
+    background-color: #36393f;
+    margin: 8px 0;
+    border-radius: 1px;
+}
+
+.servers-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Анимации для серверов */
+@keyframes serverHover {
+    0% {
+        border-radius: 50%;
+    }
+
+    100% {
+        border-radius: 16px;
+    }
+}
+
+.server-item:hover {
+    animation: serverHover 0.2s ease forwards;
+}
+
+/* Стили для уведомлений на серверах */
+.server-notification {
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #f04747;
+    border-radius: 50%;
+    display: none;
+}
+
+.server-item.has-notification .server-notification {
+    display: block;
+}
+
+/* Стили для списка чатов */
+.chats-list {
+    width: 350px;
+    background-color: #fff;
+    border-right: 1px solid #e1e1e1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chats-header {
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.chats-header h2 {
+    font-size: 22px;
+    color: #333;
+}
+
+/* Контейнер для чатов с прокруткой */
+.chats-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.chat-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.chat-item:hover {
+    background-color: #f5f5f5;
+}
+
+.chat-item.active {
+    background-color: #e3f2fd;
+}
+
+.chat-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #4a76a8;
+    margin-right: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #4a76a8;
+    display: none;
+    align-items: center;
+    justify-content: center;
     color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.chat-info {
+    flex-grow: 1;
+}
+
+.chat-name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.chat-preview {
+    color: #666;
     font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Профиль пользователя и кнопки внизу */
+.user-profile-footer {
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e1e1e1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.profile-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.profile-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-tag {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-buttons {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.theme-toggle,
+.settings-button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: transparent;
+    padding: 0;
+}
+
+.theme-toggle {
+    color: #4a76a8;
+}
+
+.theme-toggle:hover {
+    background-color: #e3f2fd;
+}
+
+.settings-button {
+    color: #666;
+}
+
+.settings-button:hover {
+    background-color: #f0f0f0;
+}
+
+.button-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+/* Стили для области сообщений */
+.chat-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+/* Плашка с именем пользователя (как в Discord) */
+.chat-header {
+    padding: 15px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e1e1e1;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+    display: none;
+    margin-right: 15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+}
+
+.back-button .button-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.chat-header-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4a76a8;
+    margin-right: 15px;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+.chat-header-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chat-header-info p {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Область сообщений */
+.messages-container {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-message {
+    text-align: center;
+    color: #666;
+    max-width: 300px;
+}
+
+.welcome-message h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.welcome-message p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.message {
+    max-width: 70%;
+    margin-bottom: 15px;
+    padding: 12px 16px;
+    border-radius: 18px;
+    position: relative;
+    line-height: 1.4;
+}
+
+.message.received {
+    background-color: #fff;
+    border-top-left-radius: 5px;
+    align-self: flex-start;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message.sent {
+    background-color: #e3f2fd;
+    border-top-right-radius: 5px;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+    margin-top: 5px;
+}
+
+/* Панель ввода сообщения (как в Telegram для iOS) */
+.message-input-container {
+    padding: 15px;
+    background-color: #fff;
+    border-top: 1px solid #e1e1e1;
+    display: flex;
+    align-items: center;
+}
+
+.message-input {
+    flex-grow: 1;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 18px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    outline: none;
+    resize: none;
+    max-height: 120px;
+}
+
+.message-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.send-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4a76a8;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    padding: 0;
+}
+
+.send-button:hover:not(:disabled) {
+    background-color: #3a6698;
+}
+
+.send-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.send-button .button-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Темная тема */
+body.dark-theme {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    color: #ffffff;
+}
+
+body.dark-theme .servers-list {
+    background-color: rgba(32, 34, 37, 0.95);
+}
+
+body.dark-theme .server-divider {
+    background-color: #72767d;
+}
+
+body.dark-theme .chats-list {
+    background-color: #2f3136;
+    border-right-color: #40444b;
+}
+
+body.dark-theme .chats-header {
+    background-color: #36393f;
+    border-bottom-color: #40444b;
+}
+
+body.dark-theme .chats-header h2 {
+    color: #ffffff;
+}
+
+body.dark-theme .chat-item {
+    border-bottom-color: #40444b;
+    color: #ffffff;
+}
+
+body.dark-theme .chat-item:hover {
+    background-color: #36393f;
+}
+
+body.dark-theme .chat-item.active {
+    background-color: #4a76a8;
+}
+
+body.dark-theme .chat-preview {
+    color: #b9bbbe;
+}
+
+body.dark-theme .user-profile-footer {
+    background-color: #292b2f;
+    border-top-color: #40444b;
+}
+
+body.dark-theme .profile-name {
+    color: #ffffff;
+}
+
+body.dark-theme .profile-tag {
+    color: #b9bbbe;
+}
+
+body.dark-theme .theme-toggle {
+    color: #ffffff;
+}
+
+body.dark-theme .theme-toggle:hover {
+    background-color: #4a76a8;
+}
+
+body.dark-theme .settings-button {
+    color: #b9bbbe;
+}
+
+body.dark-theme .settings-button:hover {
+    background-color: #4a76a8;
+    color: #ffffff;
+}
+
+body.dark-theme .chat-area {
+    background-color: #36393f;
+}
+
+body.dark-theme .chat-header {
+    background-color: #36393f;
+    border-bottom-color: #40444b;
+    color: #ffffff;
+}
+
+body.dark-theme .messages-container {
+    background-color: #36393f;
+}
+
+body.dark-theme .welcome-message {
+    color: #b9bbbe;
+}
+
+body.dark-theme .welcome-message h3 {
+    color: #ffffff;
+}
+
+body.dark-theme .message.received {
+    background-color: #40444b;
+    color: #ffffff;
+}
+
+body.dark-theme .message.sent {
+    background-color: #4a76a8;
+    color: #ffffff;
+}
+
+body.dark-theme .message-input-container {
+    background-color: #36393f;
+    border-top-color: #40444b;
+}
+
+body.dark-theme .message-input {
+    background-color: #40444b;
+    color: #ffffff;
+}
+
+/* Фильтры для иконок в темной теме */
+body.dark-theme .button-icon {
+    filter: invert(1);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    body {
+        padding-left: 0;
+    }
+
+    .servers-list {
+        position: fixed;
+        left: -70px;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+    .servers-list.active {
+        left: 0;
+    }
+
+    .chats-list {
+        width: 100%;
+    }
+
+    .chats-list.active {
+        display: flex;
+    }
+
+    .chat-area {
+        display: none;
+    }
+
+    .chat-area.active {
+        display: flex;
+    }
+
+    .back-button {
+        display: block;
+    }
+
+    .profile-buttons {
+        gap: 5px;
+    }
+
+    .theme-toggle,
+    .settings-button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .button-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Показываем аватарку только когда есть активный чат */
+    .chat-area.active .chat-header-avatar {
+        display: flex;
+    }
+
+    .welcome-message {
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .welcome-message h3 {
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
 }
