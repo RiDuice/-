@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Вход в аккаунт</title>
+    <link rel="stylesheet" href="assets/StLogin.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Вход в аккаунт</h1>
+            <p>С возвращением в наш мессенджер</p>
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="login">Телефон или имя пользователя</label>
+                <input type="text" id="login" class="form-input" placeholder="Введите телефон или имя пользователя"
+                    required>
+                <div class="error-message" id="loginError">Поле не может быть пустым</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" class="form-input" placeholder="Введите ваш пароль" required>
+                <div class="error-message" id="passwordError">Пароль не может быть пустым</div>
+            </div>
+
+            <button type="submit" class="login-button" id="loginButton">Войти</button>
+
+            <div class="register-link">
+                Нет аккаунта? <a href="reg.html">Зарегистрироваться</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="scriptLOGIN.js"></script>
+</body>
+
+</html>

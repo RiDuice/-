@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const registerForm = document.getElementById('registerForm');
     const usernameInput = document.getElementById('username');
-    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirmPassword');
     const termsCheckbox = document.getElementById('terms');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Элементы для отображения ошибок
     const usernameError = document.getElementById('usernameError');
-    const emailError = document.getElementById('emailError');
+    const phoneError = document.getElementById('phoneError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
 
@@ -25,14 +25,14 @@ document.addEventListener('DOMContentLoaded', function () {
         updateRegisterButton();
     });
 
-    // Проверка email
-    emailInput.addEventListener('input', function () {
-        const email = emailInput.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            emailError.style.display = 'block';
+    // Проверка номера телефона
+    phoneInput.addEventListener('input', function () {
+        const phone = phoneInput.value.trim();
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+        if (!phoneRegex.test(phone)) {
+            phoneError.style.display = 'block';
         } else {
-            emailError.style.display = 'none';
+            phoneError.style.display = 'none';
         }
         updateRegisterButton();
     });
@@ -85,19 +85,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // Обновление состояния кнопки регистрации
     function updateRegisterButton() {
         const username = usernameInput.value.trim();
-        const email = emailInput.value.trim();
+        const phone = phoneInput.value.trim();
         const password = passwordInput.value;
         const confirmPassword = confirmPasswordInput.value;
         const termsChecked = termsCheckbox.checked;
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
 
         const isUsernameValid = username.length >= 3 && username.length <= 20;
-        const isEmailValid = emailRegex.test(email);
+        const isPhoneValid = phoneRegex.test(phone);
         const isPasswordValid = password.length >= 8;
         const isConfirmPasswordValid = password === confirmPassword;
 
-        if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid && termsChecked) {
+        if (isUsernameValid && isPhoneValid && isPasswordValid && isConfirmPasswordValid && termsChecked) {
             registerButton.disabled = false;
         } else {
             registerButton.disabled = true;
