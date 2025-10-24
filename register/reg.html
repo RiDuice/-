@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Регистрация</title>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h1>Создать аккаунт</h1>
+            <p>Присоединяйтесь к нашему мессенджеру</p>
+        </div>
+
+        <form class="register-form" id="registerForm">
+            <div class="form-group">
+                <label for="username">Имя пользователя</label>
+                <input type="text" id="username" class="form-input" placeholder="Введите имя пользователя" required>
+                <div class="error-message" id="usernameError">Имя пользователя должно содержать от 3 до 20 символов
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Электронная почта</label>
+                <input type="email" id="email" class="form-input" placeholder="Введите вашу почту" required>
+                <div class="error-message" id="emailError">Введите корректный адрес электронной почты</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" class="form-input" placeholder="Создайте пароль" required>
+                <div class="password-strength" id="passwordStrength">
+                    <div class="password-strength-bar"></div>
+                </div>
+                <div class="error-message" id="passwordError">Пароль должен содержать не менее 8 символов</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Подтверждение пароля</label>
+                <input type="password" id="confirmPassword" class="form-input" placeholder="Повторите пароль" required>
+                <div class="error-message" id="confirmPasswordError">Пароли не совпадают</div>
+            </div>
+
+            <div class="terms-group">
+                <input type="checkbox" id="terms" class="terms-checkbox" required>
+                <label for="terms" class="terms-text">
+                    Я согласен с <a href="#">Условиями использования</a> и <a href="#">Политикой конфиденциальности</a>
+                </label>
+            </div>
+
+            <button type="submit" class="register-button" id="registerButton">Зарегистрироваться</button>
+
+            <div class="login-link">
+                Уже есть аккаунт? <a href="login.html">Войти</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="scriptREG.js"></script>
+</body>
+
+</html>
