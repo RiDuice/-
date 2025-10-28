@@ -1,0 +1,4 @@
+{  
+"watch": ["/","views","routes"],  
+"ext": "js,mjs,cjs,json,twig,css"
+}  
