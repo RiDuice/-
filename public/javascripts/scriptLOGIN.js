@@ -1,5 +1,3 @@
-// scriptLogin.js
-
 document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
     const loginInput = document.getElementById('login');
@@ -51,10 +49,34 @@ document.addEventListener('DOMContentLoaded', function () {
     loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Здесь обычно отправка данных на сервер и аутентификация
-        alert('Вход выполнен успешно!');
-        // В реальном приложении здесь был бы redirect на главную страницу мессенджера
-        // window.location.href = 'index.html';
+        // Сбор данных формы
+        const formData = {
+            login: loginInput.value.trim(),
+            password: passwordInput.value
+        };
+
+        // Отправка данных на сервер
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // Редирект на главную страницу после успешного входа
+                    window.location.href = '/index.html';
+                } else {
+                    alert('Ошибка: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при входе');
+            });
     });
 
     // Загрузка темы из localStorage

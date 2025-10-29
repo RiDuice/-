@@ -1,5 +1,3 @@
-// scriptReg.js
-
 document.addEventListener('DOMContentLoaded', function () {
     const registerForm = document.getElementById('registerForm');
     const usernameInput = document.getElementById('username');
@@ -113,9 +111,37 @@ document.addEventListener('DOMContentLoaded', function () {
     registerForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Здесь обычно отправка данных на сервер
-        alert('Регистрация успешно завершена!');
-        // В реальном приложении здесь был бы redirect на страницу входа или мессенджера
+        // Сбор данных формы
+        const formData = {
+            username: usernameInput.value.trim(),
+            phone: phoneInput.value.trim(),
+            password: passwordInput.value,
+            confirmPassword: confirmPasswordInput.value,
+            terms: termsCheckbox.checked
+        };
+
+        // Отправка данных на сервер
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // Редирект на страницу входа после успешной регистрации
+                    window.location.href = '/';
+                } else {
+                    alert('Ошибка: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при регистрации');
+            });
     });
 
     // Загрузка темы из localStorage
