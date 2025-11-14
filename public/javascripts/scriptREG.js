@@ -109,15 +109,28 @@ document.addEventListener('DOMContentLoaded', function () {
     // Обработка чекбокса условий
     termsCheckbox.addEventListener('change', updateRegisterButton);
 
-    // Обработка отправки формы
-    registerForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+registerForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-        // Здесь обычно отправка данных на сервер
-        alert('Регистрация успешно завершена!');
-        // В реальном приложении здесь был бы redirect на страницу входа или мессенджера
+    const formData = new FormData(registerForm); // Получаем данные формы
+
+    fetch('/register', { // Адрес должен совпадать с POST-маршрутом серверного Express-кода
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Регистрация успешно завершена!');
+            // можно добавить перенаправление: window.location.href = '/login';
+        } else {
+            alert('Ошибка: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('Ошибка на сервере: ' + error);
     });
-
+});
     // Загрузка темы из localStorage
     function loadTheme() {
         const savedTheme = localStorage.getItem('theme');
