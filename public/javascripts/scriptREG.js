@@ -6,15 +6,16 @@ const styles = `
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     }
 
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f5f5f5;
-        min-height: 100vh;
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #412861;
+        background: linear-gradient(165deg, rgba(65, 40, 97, 1) 0%, rgba(1, 1, 23, 1) 100%);
         padding: 20px;
     }
 
