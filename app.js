@@ -5,25 +5,20 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
 
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 
-
-
-
 var app = express();
-app.set('trust proxy', 1) // trust first proxy
+
+// Исправленная настройка сессии
+app.set('trust proxy', 1);
 app.use(session({
-  secret: 'hgjfdakghjkfghdghskghkshgj hdjkgb jfdghjd ghds', /* secret */
+  secret: 'hgjfdakghjkfghdghskghkshgj hdjkgb jfdghjd ghds',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: true }
-}))
-
-
-
+  cookie: { secure: false } // Изменили на false для HTTP
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
